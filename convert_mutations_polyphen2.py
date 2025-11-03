@@ -2,7 +2,7 @@ import pandas as pd
 
 
 # Read CSV file
-df = pd.read_csv("psen1_mutations_tidy.csv")
+df = pd.read_csv("data/tidy_data/psen1_mutations_tidy.csv")
 
 
 # Function to convert mutation format
@@ -28,6 +28,6 @@ for mut in df["Mutation"]:
         mutations.append(converted)
 
 # Save to file
-with open("known_mutations_batch.txt", "w") as f:
+with open("data/tidy_data/known_mutations_batch.txt", "w") as f:
     for mut in mutations:
         f.write(mut + "\n")

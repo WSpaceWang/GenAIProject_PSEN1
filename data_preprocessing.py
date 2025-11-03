@@ -2,7 +2,7 @@ import pandas as pd
 
 
 # Read the raw CSV file
-df = pd.read_csv("psen1_mutations_raw.csv", dtype=str)
+df = pd.read_csv("data/raw_data/psen1_mutations_raw.csv", dtype=str)
 
 # Remove rows that are completely empty
 df = df.dropna(how="all")
@@ -79,4 +79,4 @@ df = remove_parentheses(df)
 # print(df["Mutation"].nunique())
 
 # Save the cleaned DataFrame to a new CSV file
-df.to_csv("psen1_mutations_tidy.csv", index=False)
+df.to_csv("data/tidy_data/psen1_mutations_tidy.csv", index=False)
