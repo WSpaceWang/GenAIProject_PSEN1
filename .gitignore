@@ -32,12 +32,8 @@ ENV/
 *.swo
 *~
 
-# Data files (keep structure, ignore large files)
-data/raw/*.csv
-data/processed/*.csv
-data/processed/*.txt
-data/external/*.txt
-*.fasta
+# Data files - now tracked in git
+# (Previously ignored, but now all data files are tracked)
 
 # Model outputs
 outputs/
