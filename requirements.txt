@@ -1,0 +1,16 @@
+# Core dependencies
+pandas>=1.5.0
+numpy>=1.21.0
+scikit-learn>=1.0.0
+biopython>=1.79
+matplotlib>=3.5.0
+seaborn>=0.12.0
+joblib>=1.1.0
+
+# ESM-2 model
+torch>=1.12.0
+fair-esm>=2.0.0
+
+# Optional: BLOSUM utilities (alternative to Bio.Align)
+# blosum>=1.0.0
+

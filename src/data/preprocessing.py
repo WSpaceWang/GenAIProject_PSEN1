@@ -1,13 +1,8 @@
 import pandas as pd
+import os
 
-
-# Read the raw CSV file
-df = pd.read_csv("data/raw_data/psen1_mutations_raw.csv", dtype=str)
-
-# Remove rows that are completely empty
-df = df.dropna(how="all")
-# print(df["Research Models"].notna().sum())  # Check non-empty "Research Models" entries
-
+INPUT_FILE = "data/raw/psen1_mutations_raw.csv"
+OUTPUT_FILE = "data/processed/psen1_mutations_tidy.csv"
 
 # Split the "Mutation Type/Codon Change" column into "Mutation Type" and "Codon Change"
 def split_mc_column(data: pd.DataFrame) -> pd.DataFrame:
@@ -35,24 +30,6 @@ def split_mc_column(data: pd.DataFrame) -> pd.DataFrame:
     data = data.rename(columns={"Mutation Type/Codon Change": "Mutation Type"})
     return data
 
-
-# Clean the data after the split (based on "Research Models" column)
-df = split_mc_column(df)
-df["Research Models"] = df["Research Models"].apply(lambda x: x if str(x).strip() != "" else None)
-df = df.dropna(subset=["Research Models"]).reset_index(drop=True)
-# print(df["Mutation"].notna().sum())  # Check non-empty "Mutation" entries
-
-# Drop rows where "Mutation" column contains "del" or "ins" or "dup"
-df = df[~df["Mutation"].str.contains("del|ins|dup", case=False, na=False)].reset_index(drop=True)
-
-# Keep only rows that contain "Pathogenic" in the "Pathogenicity" column
-# print(df["Pathogenicity"].unique())  # Check unique values in "Pathogenicity" column
-df = df[df["Pathogenicity"].str.contains("Pathogenic", case=False, na=False)].reset_index(drop=True)
-
-# Drop the "Research Models" and "Primary Papers" columns
-df = df.drop(columns=["Research Models", "Primary Papers"])
-
-
 # Remove content within parentheses from the "Mutation" column and handle duplicates
 def remove_parentheses(data: pd.DataFrame) -> pd.DataFrame:
     # Remove content within parentheses from the "Mutation" column
@@ -74,9 +51,39 @@ def remove_parentheses(data: pd.DataFrame) -> pd.DataFrame:
     data = data.reset_index(drop=True)
     return data
 
+def main():
+    # Read the raw CSV file
+    if not os.path.exists(INPUT_FILE):
+        print(f"Error: Input file {INPUT_FILE} not found.")
+        return
 
-df = remove_parentheses(df)
-# print(df["Mutation"].nunique())
+    df = pd.read_csv(INPUT_FILE, dtype=str)
 
-# Save the cleaned DataFrame to a new CSV file
-df.to_csv("data/tidy_data/psen1_mutations_tidy.csv", index=False)
+    # Remove rows that are completely empty
+    df = df.dropna(how="all")
+    
+    # Clean the data after the split (based on "Research Models" column)
+    df = split_mc_column(df)
+    df["Research Models"] = df["Research Models"].apply(lambda x: x if str(x).strip() != "" else None)
+    df = df.dropna(subset=["Research Models"]).reset_index(drop=True)
+
+    # Drop rows where "Mutation" column contains "del" or "ins" or "dup"
+    df = df[~df["Mutation"].str.contains("del|ins|dup", case=False, na=False)].reset_index(drop=True)
+
+    # Keep only rows that contain "Pathogenic" in the "Pathogenicity" column
+    df = df[df["Pathogenicity"].str.contains("Pathogenic", case=False, na=False)].reset_index(drop=True)
+
+    # Drop the "Research Models" and "Primary Papers" columns
+    df = df.drop(columns=["Research Models", "Primary Papers"])
+
+    df = remove_parentheses(df)
+    
+    # Ensure output directory exists
+    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+
+    # Save the cleaned DataFrame to a new CSV file
+    df.to_csv(OUTPUT_FILE, index=False)
+    print(f"Processed data saved to {OUTPUT_FILE}")
+
+if __name__ == "__main__":
+    main()
