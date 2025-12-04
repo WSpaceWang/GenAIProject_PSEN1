@@ -1,0 +1,48 @@
+position_1based,wt_aa,mut_aa,pph2_prediction,pph2_prob
+198,S,P,probably damaging,0.963
+201,A,V,benign,0.028
+235,A,V,benign,0.049
+243,D,N,benign,0.044
+244,D,G,benign,0.171
+246,E,K,possibly damaging,0.826
+296,E,K,probably damaging,0.987
+297,T,M,probably damaging,1.0
+299,P,L,probably damaging,0.999
+332,D,G,benign,0.018
+340,V,M,probably damaging,1.0
+342,G,S,possibly damaging,0.515
+380,E,K,probably damaging,0.99
+468,R,H,probably damaging,1.0
+479,A,S,benign,0.059
+486,R,W,probably damaging,1.0
+496,K,Q,probably damaging,0.999
+500,A,T,probably damaging,1.0
+538,Y,H,probably damaging,0.998
+562,V,I,benign,0.008
+599,E,K,probably damaging,0.979
+600,T,M,probably damaging,1.0
+604,V,M,possibly damaging,0.474
+614,S,G,benign,0.003
+620,P,A,possibly damaging,0.656
+620,P,L,probably damaging,0.963
+660,N,Y,probably damaging,0.996
+663,T,M,possibly damaging,0.622
+665,E,D,benign,0.209
+673,A,V,possibly damaging,0.656
+682,E,V,probably damaging,1.0
+687,K,Q,probably damaging,0.999
+695,V,M,possibly damaging,0.654
+705,L,V,probably damaging,0.999
+709,G,S,probably damaging,1.0
+713,A,T,probably damaging,1.0
+713,A,V,probably damaging,1.0
+716,I,T,probably damaging,1.0
+716,I,M,probably damaging,1.0
+717,V,L,probably damaging,0.999
+717,V,G,probably damaging,1.0
+719,T,P,probably damaging,1.0
+719,T,N,probably damaging,1.0
+722,M,K,probably damaging,0.993
+723,L,R,probably damaging,1.0
+724,K,M,probably damaging,0.999
+733,H,P,probably damaging,1.0

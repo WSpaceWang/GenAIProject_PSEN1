@@ -1,0 +1,53 @@
+#o_acc               	 o_pos	o_aa1	o_aa2	rsid      	acc       	   pos	aa1	aa2	        prediction	 pph2_prob	  pph2_FPR	  pph2_TPR
+A4_HUMAN            	   198	    S	    P	         ?	P05067    	   198	  S	  P	 probably damaging	     0.963	    0.0475	     0.778
+A4_HUMAN            	   201	    A	    V	         ?	P05067    	   201	  A	  V	            benign	     0.028	     0.185	     0.948
+A4_HUMAN            	   235	    A	    V	         ?	P05067    	   235	  A	  V	            benign	     0.049	     0.167	     0.941
+A4_HUMAN            	   243	    D	    N	         ?	P05067    	   243	  D	  N	            benign	     0.044	      0.17	     0.942
+A4_HUMAN            	   244	    D	    G	         ?	P05067    	   244	  D	  G	            benign	     0.171	      0.13	     0.919
+A4_HUMAN            	   246	    E	    K	         ?	P05067    	   246	  E	  K	 possibly damaging	     0.826	    0.0696	     0.838
+A4_HUMAN            	   296	    E	    K	         ?	P05067    	   296	  E	  K	 probably damaging	     0.987	     0.036	     0.731
+A4_HUMAN            	   297	    T	    M	         ?	P05067    	   297	  T	  M	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   299	    P	    L	         ?	P05067    	   299	  P	  L	 probably damaging	     0.999	   0.00574	     0.136
+A4_HUMAN            	   332	    D	    G	         ?	P05067    	   332	  D	  G	            benign	     0.018	     0.202	     0.953
+A4_HUMAN            	   340	    V	    M	         ?	P05067    	   340	  V	  M	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   342	    G	    S	         ?	P05067    	   342	  G	  S	 possibly damaging	     0.515	    0.0962	     0.883
+A4_HUMAN            	   380	    E	    K	         ?	P05067    	   380	  E	  K	 probably damaging	      0.99	    0.0338	     0.719
+A4_HUMAN            	   468	    R	    H	         ?	P05067    	   468	  R	  H	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   479	    A	    S	         ?	P05067    	   479	  A	  S	            benign	     0.059	     0.162	     0.938
+A4_HUMAN            	   486	    R	    W	         ?	P05067    	   486	  R	  W	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   496	    K	    Q	         ?	P05067    	   496	  K	  Q	 probably damaging	     0.999	   0.00574	     0.136
+A4_HUMAN            	   500	    A	    T	         ?	P05067    	   500	  A	  T	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   538	    Y	    H	         ?	P05067    	   538	  Y	  H	 probably damaging	     0.998	    0.0112	     0.273
+A4_HUMAN            	   562	    V	    I	         ?	P05067    	   562	  V	  I	            benign	     0.008	     0.239	     0.963
+A4_HUMAN            	   599	    E	    K	         ?	P05067    	   599	  E	  K	 probably damaging	     0.979	    0.0411	     0.755
+A4_HUMAN            	   600	    T	    M	         ?	P05067    	   600	  T	  M	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   604	    V	    M	         ?	P05067    	   604	  V	  M	 possibly damaging	     0.474	    0.0987	     0.887
+A4_HUMAN            	   614	    S	    G	         ?	P05067    	   614	  S	  G	            benign	     0.003	     0.556	     0.981
+A4_HUMAN            	   620	    P	    A	         ?	P05067    	   620	  P	  A	 possibly damaging	     0.656	    0.0869	     0.865
+A4_HUMAN            	   620	    P	    L	         ?	P05067    	   620	  P	  L	 probably damaging	     0.963	    0.0475	     0.778
+A4_HUMAN            	   660	    N	    Y	         ?	P05067    	   660	  N	  Y	 probably damaging	     0.996	    0.0222	     0.545
+A4_HUMAN            	   663	    T	    M	         ?	P05067    	   663	  T	  M	 possibly damaging	     0.622	    0.0899	      0.87
+A4_HUMAN            	   665	    E	    D	         ?	P05067    	   665	  E	  D	            benign	     0.209	     0.124	     0.915
+A4_HUMAN            	   673	    A	    V	         ?	P05067    	   673	  A	  V	 possibly damaging	     0.656	    0.0869	     0.865
+A4_HUMAN            	   682	    E	    V	         ?	P05067    	   682	  E	  V	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   687	    K	    Q	         ?	P05067    	   687	  K	  Q	 probably damaging	     0.999	   0.00574	     0.136
+A4_HUMAN            	   695	    V	    M	         ?	P05067    	   695	  V	  M	 possibly damaging	     0.654	    0.0872	     0.866
+A4_HUMAN            	   705	    L	    V	         ?	P05067    	   705	  L	  V	 probably damaging	     0.999	   0.00574	     0.136
+A4_HUMAN            	   709	    G	    S	         ?	P05067    	   709	  G	  S	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   713	    A	    T	         ?	P05067    	   713	  A	  T	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   713	    A	    V	rs1800557 	P05067    	   713	  A	  V	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   716	    I	    T	         ?	P05067    	   716	  I	  T	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   716	    I	    M	         ?	P05067    	   716	  I	  M	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   717	    V	    L	         ?	P05067    	   717	  V	  L	 probably damaging	     0.999	   0.00574	     0.136
+A4_HUMAN            	   717	    V	    G	         ?	P05067    	   717	  V	  G	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   719	    T	    P	         ?	P05067    	   719	  T	  P	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   719	    T	    N	         ?	P05067    	   719	  T	  N	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   722	    M	    K	         ?	P05067    	   722	  M	  K	 probably damaging	     0.993	    0.0301	     0.696
+A4_HUMAN            	   723	    L	    R	         ?	P05067    	   723	  L	  R	 probably damaging	         1	   0.00026	   0.00018
+A4_HUMAN            	   724	    K	    M	         ?	P05067    	   724	  K	  M	 probably damaging	     0.999	   0.00574	     0.136
+A4_HUMAN            	   733	    H	    P	         ?	P05067    	   733	  H	  P	 probably damaging	         1	   0.00026	   0.00018
+## Sources:
+##   Predictions: PolyPhen-2 v2.2.3r408
+##   Sequences:   UniProtKB/UniRef100 Release 2011_12 (14-Dec-2011)
+##   Structures:  PDB/DSSP Snapshot 25-May-2021 (178229 Structures)
+##   Genes:       UCSC MultiZ46Way GRCh37/hg19 (08-Oct-2009)
