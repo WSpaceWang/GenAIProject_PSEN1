@@ -1,12 +1,12 @@
 # PSEN1 Mutation Risk Prediction Pipeline
 
-A lightweight computational pipeline for predicting pathogenic mutations in Presenilin-1 (PSEN1) using ESM-2 protein language model, evolutionary features (BLOSUM62), and PolyPhen-2 labels.
+A lightweight computational pipeline for predicting pathogenic mutations in Presenilin-1 (PSEN1) and APP using ESM-2 protein language model, evolutionary features (BLOSUM62), and PolyPhen-2 labels.
 
 ## Overview
 
-This project addresses the challenge of predicting pathogenic PSEN1 mutations with limited labeled data (only ~369 known mutations). The pipeline combines:
+This project addresses the challenge of predicting pathogenic mutations with limited labeled data. The pipeline combines:
 
-- **ESM-2**: Pre-trained protein language model for mutation likelihood estimation
+- **ESM-2**: Pre-trained protein language model for mutation likelihood estimation (saturation mutagenesis)
 - **BLOSUM62**: Evolutionary substitution matrix
 - **PolyPhen-2**: Weak supervision labels for training
 - **Logistic Regression**: Lightweight, interpretable risk prediction model
@@ -17,102 +17,119 @@ This project addresses the challenge of predicting pathogenic PSEN1 mutations wi
 GenAIProject_PSEN1/
 ├── src/
 │   ├── data/              # Data processing modules
-│   │   ├── preprocessing.py      # Raw data cleaning
-│   │   ├── convert_polyphen.py   # Mutation format conversion
-│   │   └── polyphen_parser.py    # PolyPhen-2 output parser
+│   │   ├── convert_polyphen.py   # Mutation format conversion for PolyPhen-2
+│   │   └── tidy.py               # PolyPhen output tidying
 │   ├── models/            # Model training and scoring
-│   │   └── risk_scorer.py        # Logistic regression risk model
-│   ├── utils/             # Utility functions
-│   │   └── blosum62.py           # BLOSUM62 scoring utilities
+│   │   └── risk_model.py         # Risk prediction model (Logistic Regression)
 │   └── visualization/     # Visualization tools
 │       └── visualize_polyphen.py  # PolyPhen distribution plots
 ├── scripts/               # Main execution scripts
-│   ├── generate_mutations.py     # ESM-2 mutation generation
-│   ├── run_analysis.py           # End-to-end analysis pipeline
-│   └── analyze_blosum.py         # BLOSUM62 analysis
+│   ├── run_esm2.py              # ESM-2 saturation mutagenesis
+│   └── run_risk_models.py        # Train model and score variants
 ├── data/
 │   ├── raw/               # Raw input data
+│   │   ├── psen1_mutations_raw.csv
+│   │   ├── app_mutations_raw.csv
+│   │   ├── P49768.fasta (PSEN1)
+│   │   └── P05067.fasta (APP)
 │   ├── processed/         # Processed intermediate data
-│   └── external/          # External data (PolyPhen outputs)
-├── outputs/               # Results and model outputs
-│   └── psen1/            # PSEN1-specific results
-└── logs/                  # Log files and model checkpoints
+│   │   ├── polyphen2/     # PolyPhen-2 outputs
+│   │   └── tidy/          # Tidy PolyPhen data
+│   └── outputs/          # Results and model outputs
+│       ├── esm2/          # ESM-2 generated mutations
+│       ├── psen1/         # PSEN1 results
+│       └── app/           # APP results
+└── data_crawler.py        # Alzforum data crawler
 ```
 
 ## Workflow
 
-### 1. Data Preprocessing
+### 1. Data Collection (Optional)
 
-Clean and standardize raw PSEN1 mutation data:
+Crawl mutation data from Alzforum:
 
 ```bash
 cd GenAIProject_PSEN1
-python -m src.data.preprocessing
+python data/data_crawler.py --protein psen1
+python data/data_crawler.py --protein app
 ```
-
-This processes `data/raw/psen1_mutations_raw.csv` and outputs `data/processed/psen1_mutations_tidy.csv`.
 
 ### 2. Convert Mutations for PolyPhen-2
 
 Convert mutations to PolyPhen-2 batch input format:
 
 ```bash
-python -m src.data.convert_polyphen
+python src/data/convert_polyphen.py \
+    --protein psen1 \
+    --input data/raw/psen1_mutations_raw.csv \
+    --output data/processed/psen1_known_mutations_batch.txt
 ```
-
-Outputs `data/processed/known_mutations_batch.txt` for PolyPhen-2 submission.
 
 ### 3. Generate Mutations with ESM-2
 
-Use ESM-2 to generate top-3 plausible mutations per position:
+Run ESM-2 saturation mutagenesis (all possible mutations):
 
 ```bash
-python scripts/generate_mutations.py
+python scripts/run_esm2.py \
+    --fasta data/raw/P49768.fasta \
+    --protein PSEN1 \
+    --output data/outputs/esm2/psen1_esm2_all.csv
 ```
 
-Requires:
-- `data/raw/P49768.fasta` (PSEN1 sequence)
-- ESM-2 model (downloaded automatically)
-
-Outputs `data/processed/psen1_esm2_top3.csv` with features:
-- `delta_loglik`: Change in log-likelihood
+This generates **all possible mutations** at every position with:
+- `delta_loglik`: Change in log-likelihood (mut_logp - wt_logp)
 - `entropy`: Position uncertainty
 - `wt_logp`, `mut_logp`: Wild-type and mutant log-probabilities
 
-### 4. Run Full Analysis Pipeline
+### 4. Train Model and Score Variants
 
 Train risk model and score all variants:
 
 ```bash
-python scripts/run_analysis.py
+python scripts/run_risk_models.py
 ```
 
 This script:
-1. Loads ESM-2 generated mutations
+1. Loads ESM-2 generated mutations (PSEN1 and APP)
 2. Adds BLOSUM62 scores
 3. Loads PolyPhen-2 labels
-4. Trains logistic regression model
-5. Scores all variants
-6. Saves results to `outputs/psen1/`
+4. Trains logistic regression model on PSEN1 data
+5. Scores all PSEN1 variants
+6. Applies PSEN1 model to APP variants (zero-shot transfer)
+7. Generates risk distribution plots
 
-Outputs:
-- `psen1_training_labeled.csv`: Training data with features and labels
-- `psen1_risk_scorer.joblib`: Trained model
-- `psen1_scored_variants.csv`: All variants with risk scores
+**Outputs:**
+- `data/outputs/psen1/psen1_risk_scorer.joblib`: Trained model
+- `data/outputs/psen1/psen1_scored_variants.csv`: All PSEN1 variants with risk scores
+- `data/outputs/app/app_scored_variants_psen1_model.csv`: APP variants scored with PSEN1 model
+- `data/outputs/*/psen1_risk_dist.png`: Risk score distributions
 
-### 5. Visualization
+### 5. Tidy PolyPhen Data (Optional)
+
+Convert PolyPhen output to tidy format:
+
+```bash
+python src/data/tidy.py \
+    --input data/processed/polyphen2/psen1_polyphen_scores.txt \
+    --output data/processed/tidy/psen1_polyphen_tidy.csv
+```
+
+### 6. Visualization
 
 Visualize PolyPhen-2 prediction distribution:
 
 ```bash
-python -m src.visualization.visualize_polyphen
+python src/visualization/visualize_polyphen.py \
+    --input data/processed/polyphen2/psen1_polyphen_scores.txt \
+    --output data/outputs/psen1/psen1_polyphen_distribution.png \
+    --protein PSEN1
 ```
 
 ## Key Features
 
 ### Mutation Generation
+- **Saturation Mutagenesis**: Generates all 19 possible mutations per position
 - Uses ESM-2 (650M parameters) to compute mutation likelihoods
-- Generates top-3 most plausible mutations per position
 - Extracts position-level entropy for uncertainty quantification
 
 ### Risk Scoring
@@ -120,11 +137,12 @@ python -m src.visualization.visualize_polyphen
 - **Model**: Logistic Regression (lightweight, interpretable)
 - **Training**: Weak supervision from PolyPhen-2 labels
 - **Output**: Risk scores (0-1) for all candidate mutations
+- **Zero-shot Transfer**: PSEN1-trained model applied to APP
 
 ### Validation
 - PolyPhen-2 predictions as weak supervision
-- AlphaFold structure filtering (future work)
 - Known vs. novel variant separation
+- Risk distribution visualization
 
 ## Requirements
 
@@ -135,6 +153,7 @@ See `requirements.txt` for full dependencies. Key packages:
 - `biopython`: Sequence analysis and BLOSUM62
 - `torch`, `fair-esm`: ESM-2 model
 - `matplotlib`, `seaborn`: Visualization
+- `requests`, `beautifulsoup4`: Web scraping (for data crawler)
 
 Install with:
 
@@ -144,24 +163,37 @@ pip install -r requirements.txt
 
 ## Data Requirements
 
-1. **Raw mutation data**: `data/raw/psen1_mutations_raw.csv`
-2. **PSEN1 sequence**: `data/raw/P49768.fasta` (UniProt format)
-3. **PolyPhen-2 output**: `data/external/known_mutations_score.txt`
+1. **Raw mutation data**: 
+   - `data/raw/psen1_mutations_raw.csv`
+   - `data/raw/app_mutations_raw.csv`
+2. **Protein sequences**: 
+   - `data/raw/P49768.fasta` (PSEN1, UniProt format)
+   - `data/raw/P05067.fasta` (APP, UniProt format)
+3. **PolyPhen-2 outputs**: 
+   - `data/processed/polyphen2/psen1_polyphen_scores.txt`
+   - `data/processed/polyphen2/app_polyphen_scores.txt`
 
 ## Results
 
 The pipeline generates:
-- Risk scores for all candidate mutations
+- Risk scores for all candidate mutations (saturation mutagenesis)
 - Separation of known vs. novel variants
 - High-risk variant prioritization
 - Model performance metrics (AUC, accuracy)
+- Zero-shot transfer results (PSEN1 model → APP)
+
+## Supported Proteins
+
+- **PSEN1** (Presenilin-1): Primary training target
+- **APP** (Amyloid Precursor Protein): Zero-shot transfer target
 
 ## Future Extensions
 
-- Support for additional proteins (e.g., APP)
+- Support for additional proteins
 - AlphaFold structure-based filtering
 - Ensemble methods for improved predictions
 - Web interface for variant prioritization
+- Cross-protein model transfer analysis
 
 ## Citation
 
